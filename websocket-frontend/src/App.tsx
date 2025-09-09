@@ -3,7 +3,7 @@ import './App.css';
 import { BACKEND_URL } from './config';
 
 function App() {
-  const [messages,setMessages]=useState(["hello","there"])
+  const [messages,setMessages]=useState([])
   const [input, setInput] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
