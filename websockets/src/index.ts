@@ -1,41 +1,41 @@
-import { WebSocketServer,WebSocket } from "ws";
+import { WebSocketServer, WebSocket } from "ws";
 
-const wss = new WebSocketServer({port:8080})
+const wss = new WebSocketServer({ port: 10000 })
 interface User {
-    socket:WebSocket,
-    room:string
+    socket: WebSocket,
+    room: string
 }
-let allSockets :User[]= [];
+let allSockets: User[] = [];
 
-wss.on("connection",(socket)=>{
-    
-  
+wss.on("connection", (socket) => {
 
-    socket.on("message",(message)=>{
+
+
+    socket.on("message", (message) => {
         const parsedMessage = JSON.parse(message as unknown as string)
-        if(parsedMessage.type === "join"){
+        if (parsedMessage.type === "join") {
             allSockets.push({
                 socket,
-                room:parsedMessage.payload.roomId
+                room: parsedMessage.payload.roomId
             })
         }
 
-        if(parsedMessage.type==="chat"){
+        if (parsedMessage.type === "chat") {
             let currentUserroom = null;
-            for(let i=0;i<allSockets.length;i++){
-                if(allSockets[i].socket==socket){
+            for (let i = 0; i < allSockets.length; i++) {
+                if (allSockets[i].socket == socket) {
                     currentUserroom = allSockets[i].room;
                 }
             }
-            for(let i=0;i<allSockets.length;i++){
-                if(allSockets[i].room==currentUserroom){
+            for (let i = 0; i < allSockets.length; i++) {
+                if (allSockets[i].room == currentUserroom) {
                     allSockets[i].socket.send(parsedMessage.payload.message)
-                }    
+                }
             }
         }
-            
-       
-        
+
+
+
     })
-    
+
 })
