@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import './App.css';
+import { BACKEND_URL } from './config';
 
 function App() {
   const [messages,setMessages]=useState(["hello","there"])
@@ -8,7 +9,7 @@ function App() {
 
  const wsRef = useRef<WebSocket | null>(null);
   useEffect(()=>{
-    const ws = new WebSocket("ws://localhost:8080");
+    const ws = new WebSocket(BACKEND_URL);
     ws.onmessage=(event)=>{
       //@ts-ignore
       setMessages(m=>[...m, event.data])
