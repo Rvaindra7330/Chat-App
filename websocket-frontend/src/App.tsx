@@ -11,7 +11,7 @@ function App() {
 
  const wsRef = useRef<WebSocket | null>(null);
   useEffect(()=>{
-    const ws = new WebSocket('ws://localhost:10000');
+    const ws = new WebSocket(BACKEND_URL);
     ws.onmessage=(event)=>{
       //@ts-ignore
       setMessages(m=>[...m, event.data])
